@@ -16,26 +16,21 @@ class Solution
   end
 
   def find_triplet(solution)
-    triplets(solution) do |triplet|
-      return triplet if valid_sum?(triplet, solution) && pythagorean?(triplet)
+    valid_triplets(solution) do |triplet|
+      return triplet if pythagorean?(triplet)
     end
   end
 
-  def triplets(solution)
+  def valid_triplets(solution)
     a_upper_limit = (solution / 3.0).ceil
     b_upper_limit = (solution / 2.0).ceil
-    c_upper_limit = solution - 2
     (1..a_upper_limit).each do |a|
       (a..b_upper_limit).each do |b|
-        (b..c_upper_limit).each do |c|
-          yield [a, b, c]
-        end
+        c = solution - b - a
+
+        yield [a, b, c]
       end
     end
-  end
-
-  def valid_sum?(triplet, solution)
-    triplet.sum == solution
   end
 
   def pythagorean?(triplet)
