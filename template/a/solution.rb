@@ -2,6 +2,6 @@
 
 # Description
 class Solution
-  def run(*args)
+  def run(**args)
   end
 end
