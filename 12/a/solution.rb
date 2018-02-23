@@ -28,6 +28,14 @@ class Solution
     end
   end
 
+  def triangle_numbers_upto(x)
+    1.upto(x).inject(0) do |x, i|
+      current = x + i
+      yield current, i
+      current
+    end
+  end
+
   def factors_of(num)
     factors = []
     (Math.sqrt(num).ceil).downto(1).each do |i|
@@ -40,14 +48,6 @@ class Solution
     end
 
     factors.sort
-  end
-
-  def triangle_numbers_upto(x)
-    1.upto(x).inject(0) do |x, i|
-      current = x + i
-      yield current, i
-      current
-    end
   end
 
   def triangle_number(x)
