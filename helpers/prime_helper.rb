@@ -21,11 +21,12 @@ module PrimeHelper
 
   def primes_iterator(limit, should_yield = true)
     yield 2 if should_yield
+
     number = 3
     primes_seen = [2]
     iterator = 2
     loop do
-      break if number > limit
+      break if number > limit.abs
 
       if prime_from_primes?(number, primes_seen)
         primes_seen << number
@@ -37,10 +38,17 @@ module PrimeHelper
     primes_seen
   end
 
-  def prime?(i)
-    primes_iterator(limit) do |prime|
-      divisable?(i, prime)
+  def prime?(x)
+    return true if pre_loaded_prime?(x)
+
+    primes_iterator(x) do |prime|
+      next if x == prime
+
+      return false if divisable?(x, prime)
     end
+
+    add_prime(x)
+    true
   end
 
   def prime_from_primes?(i, lower_primes)
@@ -51,5 +59,17 @@ module PrimeHelper
 
   def divisable?(number, factor)
     number % factor == 0
+  end
+
+  def add_prime(prime)
+    @primes ||= []
+
+    @primes << prime.abs unless pre_loaded_prime?(prime)
+  end
+
+  def pre_loaded_prime?(x)
+    @primes ||= []
+
+    @primes.include?(x.abs)
   end
 end
